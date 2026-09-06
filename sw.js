@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "abyss404-v4.1.2";
+const CACHE_VERSION = "abyss404-v4.1.3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -52,8 +52,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_VERSION).then((cache) => cache.put("./index.html", copy));
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_VERSION).then((cache) => cache.put("./index.html", copy));
+          }
           return response;
         })
         .catch(() => caches.match("./index.html"))
