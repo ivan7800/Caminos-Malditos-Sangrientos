@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090707">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Caminos Malditos Sangrientos: motor narrativo local-first de horror cósmico, con memoria, mundo estructurado y aventuras exportables.">
+  <meta name="author" content="I. Roig · Universo 404">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Caminos Malditos Sangrientos">
+  <meta property="og:description" content="Aventura narrativa local-first con Director 404, memoria y World Engine estructurado.">
+  <meta property="og:image" content="assets/universo-404-512.png">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: blob:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Caminos Malditos Sangrientos · Universo 404</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <div class="cosmos" aria-hidden="true">
+    <div class="cosmos__orb cosmos__orb--one"></div>
+    <div class="cosmos__orb cosmos__orb--two"></div>
+    <div class="cosmos__grain"></div>
+  </div>
+
+  <header class="app-header" id="app-header">
+    <button class="brand" type="button" data-route="home" aria-label="Caminos Malditos Sangrientos · Ir al inicio">
+      <img class="brand__sigil" src="assets/universo-404.webp" alt="">
+      <span><strong>CAMINOS</strong><small>MALDITOS SANGRIENTOS</small></span>
+    </button>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      <button class="nav-btn is-active" type="button" data-route="home">Inicio</button>
+      <button class="nav-btn" type="button" data-route="library">Escenarios</button>
+      <button class="nav-btn" type="button" data-route="studio">Estudio</button>
+    </nav>
+
+    <div class="header-actions">
+      <span class="engine-badge" id="engine-badge" title="Motor narrativo activo">
+        <i aria-hidden="true"></i><span>Director local</span>
+      </span>
+      <button class="install-btn" id="install-app" type="button" aria-label="Instalar Caminos Malditos como aplicación" title="Instalar como aplicación">
+        <span class="install-glyph" aria-hidden="true">↓</span><span class="install-label">Instalar</span>
+      </button>
+      <button class="icon-btn" id="audio-toggle" type="button" aria-label="Activar ambiente sonoro" aria-pressed="false" title="Ambiente sonoro">
+        <span aria-hidden="true">♫</span>
+      </button>
+      <button class="icon-btn" type="button" data-open-dialog="settings-dialog" aria-label="Abrir ajustes" title="Ajustes">
+        <span aria-hidden="true">⚙</span>
+      </button>
+      <button class="icon-btn" type="button" data-open-dialog="help-dialog" aria-label="Abrir ayuda" title="Ayuda">
+        <span aria-hidden="true">?</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="screen is-active" id="screen-home" data-screen="home" aria-labelledby="home-title">
+      <div class="hero wrap">
+        <div class="hero__copy">
+          <p class="eyebrow"><span></span> Narrativa sin caminos prefijados</p>
+          <h1 id="home-title">La historia te observa<br><em>desde el otro lado.</em></h1>
+          <p class="hero__lead">Un juego de rol y escritura colaborativa de horror cósmico. Cada acción altera un mundo persistente que recuerda tus hallazgos, tus heridas y aquello que ya sabe tu nombre.</p>
+          <div class="hero__actions">
+            <button class="btn btn--primary btn--large" id="quick-start" type="button">
+              <span>Iniciar descenso</span><b aria-hidden="true">→</b>
+            </button>
+            <button class="btn btn--ghost btn--large" type="button" data-route="library">Explorar escenarios</button>
+            <button class="btn btn--ghost btn--large" id="join-ritual-btn" type="button">Usar código</button>
+          </div>
+          <div class="trust-row" aria-label="Características principales">
+            <span>◆ Funciona sin cuenta</span>
+            <span>◆ Guardado local</span>
+            <span>◆ IA opcional</span>
+          </div>
+        </div>
+
+        <div class="hero__artifact" aria-hidden="true">
+          <span class="artifact-slash artifact-slash--one"></span>
+          <span class="artifact-slash artifact-slash--two"></span>
+          <div class="artifact-ring artifact-ring--outer"></div>
+          <div class="artifact-ring artifact-ring--mid"></div>
+          <div class="artifact-ring artifact-ring--inner"></div>
+          <div class="artifact-eye"><i></i></div>
+          <span class="glyph glyph--one">⋔</span>
+          <span class="glyph glyph--two">⟟</span>
+          <span class="glyph glyph--three">⌁</span>
+          <p>NO MIRES<br>DEMASIADO</p>
+        </div>
+      </div>
+
+      <div class="home-grid wrap">
+        <section class="panel recent-panel" aria-labelledby="recent-title">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <p class="kicker">ARCHIVO PERSONAL</p>
+              <h2 id="recent-title">Tus descensos</h2>
+            </div>
+            <button class="text-btn" type="button" data-route="library">Ver escenarios →</button>
+          </div>
+          <div class="recent-list" id="recent-list">
+            <div class="empty-state empty-state--small">
+              <span aria-hidden="true">◌</span>
+              <p>Todavía no hay aventuras guardadas.</p>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel daily-omen" aria-labelledby="omen-title">
+          <p class="kicker">PRESAGIO DEL DÍA</p>
+          <h2 id="omen-title">La geometría del hambre</h2>
+          <blockquote id="daily-omen">«Hay puertas que solo aparecen después de haberlas cruzado.»</blockquote>
+          <button class="text-btn" id="omen-start" type="button">Entrar sin preparación →</button>
+        </aside>
+      </div>
+
+      <section class="manifesto wrap" aria-label="Cómo funciona Caminos Malditos Sangrientos">
+        <article><span>01</span><h3>Actúa libremente</h3><p>Haz, habla, fuerza la narración o deja que el abismo continúe. No hay menú de decisiones.</p></article>
+        <article><span>02</span><h3>El mundo responde</h3><p>Las reglas controlan estados, objetos, pistas y consecuencias aunque cambie el narrador.</p></article>
+        <article><span>03</span><h3>Nada se pierde</h3><p>Resumen, tarjetas y recuerdos recuperan hechos antiguos sin reenviar toda la historia.</p></article>
+      </section>
+    </section>
+
+    <section class="screen wrap" id="screen-library" data-screen="library" aria-labelledby="library-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow"><span></span> Biblioteca de anomalías</p>
+          <h1 id="library-title">Elige dónde comienza<br><em>la grieta.</em></h1>
+        </div>
+        <div class="page-heading__actions">
+          <button class="btn btn--ghost" id="import-scenario-btn" type="button">Importar escenario</button>
+          <button class="btn btn--primary" type="button" data-route="studio">Crear escenario</button>
+        </div>
+      </div>
+
+      <div class="filter-bar" role="search">
+        <label class="search-field">
+          <span aria-hidden="true">⌕</span>
+          <span class="sr-only">Buscar escenarios</span>
+          <input id="scenario-search" type="search" placeholder="Buscar lugar, época o amenaza…" autocomplete="off">
+        </label>
+        <div class="filter-chips" id="scenario-filters" aria-label="Filtrar escenarios">
+          <button class="chip is-active" type="button" data-filter="all">Todos</button>
+          <button class="chip" type="button" data-filter="contemporary">Actual</button>
+          <button class="chip" type="button" data-filter="historical">Histórico</button>
+          <button class="chip" type="button" data-filter="science">Ciencia</button>
+          <button class="chip" type="button" data-filter="custom">Míos</button>
+          <button class="chip" type="button" data-filter="favorites">★ Favoritos</button>
+        </div>
+      </div>
+
+      <div class="scenario-grid" id="scenario-grid" aria-live="polite"></div>
+      <section class="image-omen panel" aria-labelledby="image-omen-title">
+        <div class="section-heading section-heading--compact"><div><p class="kicker">ARCHIVO VISUAL</p><h2 id="image-omen-title">Visiones aleatorias</h2></div><button class="text-btn" id="shuffle-gallery" type="button">Cambiar visiones ↻</button></div>
+        <div class="image-gallery" id="image-gallery" aria-live="polite"></div>
+      </section>
+    </section>
+
+    <section class="screen wrap" id="screen-setup" data-screen="setup" aria-labelledby="setup-title">
+      <button class="back-btn" type="button" data-route="library">← Volver a escenarios</button>
+      <div class="setup-layout">
+        <aside class="setup-preview" id="setup-preview">
+          <div class="setup-preview__sigil" aria-hidden="true">Ø</div>
+          <p class="kicker">EXPEDIENTE SELECCIONADO</p>
+          <h2>El Faro Bajo la Marea</h2>
+          <p>Una isla que no debería figurar en ninguna carta náutica.</p>
+          <ul></ul>
+        </aside>
+
+        <form class="panel setup-form" id="setup-form">
+          <p class="kicker">ANTES DE DESCENDER</p>
+          <h1 id="setup-title">Define a quien<br><em>perderás.</em></h1>
+
+          <div class="field-grid">
+            <label class="field field--wide">
+              <span>Nombre del personaje</span>
+              <input name="playerName" type="text" maxlength="40" value="Irene Vale" required autocomplete="off">
+            </label>
+            <label class="field">
+              <span>Arquetipo</span>
+              <select name="archetype">
+                <option value="archivist">Archivista · +Razón</option>
+                <option value="doctor">Médico/a · +Cuerpo</option>
+                <option value="engineer">Ingeniero/a · +Ingenio</option>
+                <option value="occultist">Ocultista · +Saber</option>
+                <option value="investigator">Investigador/a · +Nervio</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Perspectiva</span>
+              <select name="perspective">
+                <option value="second">Segunda persona</option>
+                <option value="first">Primera persona</option>
+                <option value="third">Tercera persona</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Intensidad</span>
+              <select name="intensity">
+                <option value="suggestive">Inquietante</option>
+                <option value="severe" selected>Opresiva</option>
+                <option value="merciless">Despiadada</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Semilla</span>
+              <input name="seed" type="text" maxlength="30" placeholder="Aleatoria">
+            </label>
+          </div>
+
+          <fieldset class="multiplayer-box">
+            <legend>Modo de mesa</legend>
+            <label class="switch-row">
+              <span><strong>Varios investigadores</strong><small>Turnos compartidos en este dispositivo.</small></span>
+              <input id="multiplayer-toggle" name="multiplayer" type="checkbox" role="switch">
+              <i aria-hidden="true"></i>
+            </label>
+            <div class="multiplayer-fields" id="multiplayer-fields" hidden>
+              <label class="field"><span>Investigador 2</span><input name="player2" type="text" maxlength="40" placeholder="Nombre"></label>
+              <label class="field"><span>Investigador 3</span><input name="player3" type="text" maxlength="40" placeholder="Opcional"></label>
+              <p>El código de ritual permite transportar la partida, pero la sincronización entre dispositivos requiere un servidor.</p>
+            </div>
+          </fieldset>
+
+          <label class="consent-row">
+            <input name="accept" type="checkbox" required>
+            <span>Entiendo que la historia puede contener tensión, pérdida de control y horror psicológico.</span>
+          </label>
+
+          <button class="btn btn--primary btn--large btn--full" type="submit">Abrir el expediente <b aria-hidden="true">→</b></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen wrap" id="screen-studio" data-screen="studio" aria-labelledby="studio-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow"><span></span> Estudio de escenarios</p>
+          <h1 id="studio-title">Construye tu propio<br><em>fin del mundo.</em></h1>
+        </div>
+        <button class="btn btn--ghost" id="studio-reset" type="button">Limpiar formulario</button>
+      </div>
+
+      <form class="studio-layout" id="studio-form">
+        <div class="panel studio-main">
+          <div class="form-section">
+            <div class="form-section__number">01</div>
+            <div class="form-section__body">
+              <h2>Identidad</h2>
+              <div class="field-grid">
+                <label class="field field--wide"><span>Título</span><input name="title" maxlength="70" required placeholder="La ciudad que sueña hacia dentro"></label>
+                <label class="field"><span>Lugar y época</span><input name="setting" maxlength="90" required placeholder="Barcelona, invierno de 1991"></label>
+                <label class="field"><span>Categoría</span><select name="category"><option value="contemporary">Actual</option><option value="historical">Histórico</option><option value="science">Ciencia</option></select></label>
+                <label class="field field--wide"><span>Premisa</span><textarea name="premise" rows="4" maxlength="600" required placeholder="Algo imposible altera la vida cotidiana…"></textarea></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section__number">02</div>
+            <div class="form-section__body">
+              <h2>Verdad prohibida</h2>
+              <div class="field-grid">
+                <label class="field"><span>Entidad o fenómeno</span><input name="entity" maxlength="100" required placeholder="El Coro Inverso"></label>
+                <label class="field"><span>Tabú</span><input name="taboo" maxlength="120" required placeholder="Nunca responder a una voz propia"></label>
+                <label class="field field--wide"><span>Verdad oculta</span><textarea name="truth" rows="4" maxlength="700" required placeholder="La revelación final que explica las anomalías…"></textarea></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section__number">03</div>
+            <div class="form-section__body">
+              <h2>Reglas y apertura</h2>
+              <div class="field-grid">
+                <label class="field field--wide"><span>Reglas del mundo <small>(una por línea)</small></span><textarea name="rules" rows="5" maxlength="900" placeholder="Las superficies pulidas recuerdan rostros.&#10;La entidad no puede mentir, pero omite la escala."></textarea></label>
+                <label class="field field--wide"><span>Escena inicial</span><textarea name="opening" rows="6" maxlength="1200" required placeholder="Empieza dentro de la acción, con una imagen concreta y una pregunta implícita…"></textarea></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="studio-side">
+          <div class="panel quality-card">
+            <p class="kicker">CONTROL DE CALIDAD</p>
+            <h2>Un buen abismo necesita límites.</h2>
+            <ul id="studio-checklist">
+              <li data-check="title"><i></i> Título reconocible</li>
+              <li data-check="premise"><i></i> Conflicto inmediato</li>
+              <li data-check="truth"><i></i> Verdad no humana</li>
+              <li data-check="taboo"><i></i> Regla que pueda romperse</li>
+              <li data-check="opening"><i></i> Apertura jugable</li>
+            </ul>
+          </div>
+          <button class="btn btn--primary btn--large btn--full" type="submit">Guardar escenario</button>
+          <p class="fine-print">Se guarda solo en este navegador. Después podrás exportarlo y compartirlo como archivo.</p>
+        </aside>
+      </form>
+    </section>
+
+    <section class="screen game-screen" id="screen-game" data-screen="game" aria-labelledby="game-title">
+      <div class="game-topbar">
+        <button class="back-btn" id="leave-game" type="button">← Archivo</button>
+        <div class="game-identity">
+          <p id="game-scenario-label">EXPEDIENTE 01</p>
+          <h1 id="game-title">El Faro Bajo la Marea</h1>
+        </div>
+        <div class="game-topbar__actions">
+          <span class="save-indicator" id="save-indicator"><i></i> Guardado</span>
+          <button class="icon-btn" id="context-inspector-btn" type="button" title="Inspeccionar contexto" aria-label="Inspeccionar contexto">◎</button>
+          <button class="icon-btn" id="export-adventure-btn" type="button" title="Exportar aventura" aria-label="Exportar aventura">⇩</button>
+          <button class="icon-btn" id="game-menu-btn" type="button" title="Opciones de partida" aria-label="Opciones de partida">•••</button>
+        </div>
+      </div>
+
+      <div class="game-layout">
+        <aside class="game-sidebar game-sidebar--left" aria-label="Estado del personaje">
+          <section class="character-card">
+            <div class="portrait" id="player-monogram" aria-hidden="true">IV</div>
+            <div><p id="player-archetype">ARCHIVISTA</p><h2 id="player-name">Irene Vale</h2><span id="active-player-label">Tu turno</span></div>
+          </section>
+
+          <section class="stat-block" aria-labelledby="state-title">
+            <div class="sidebar-title"><h3 id="state-title">Estado</h3><span id="turn-number">Turno 0</span></div>
+            <div class="stat" data-stat="lucidity"><div><span>Lucidez</span><b>100</b></div><div class="meter" role="progressbar" aria-label="Lucidez" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i></i></div></div>
+            <div class="stat" data-stat="body"><div><span>Cuerpo</span><b>100</b></div><div class="meter" role="progressbar" aria-label="Cuerpo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i></i></div></div>
+            <div class="stat" data-stat="obsession"><div><span>Obsesión</span><b>0</b></div><div class="meter" role="progressbar" aria-label="Obsesión" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div></div>
+            <div class="stat stat--danger" data-stat="threshold"><div><span>El Umbral</span><b>0%</b></div><div class="meter" role="progressbar" aria-label="El Umbral" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div></div>
+          </section>
+
+          <section class="world-brief">
+            <p class="kicker">UBICACIÓN</p>
+            <p class="chapter-label" id="chapter-label">CAPÍTULO 1 · EL DESPERTAR</p>
+            <h3 id="world-location">Embarcadero de Santa Umbra</h3>
+            <p id="world-time">Noche I · 23:17</p>
+          </section>
+
+          <section class="objective-card">
+            <p class="kicker">OBJETIVO ACTUAL</p>
+            <p id="world-objective">Descubre por qué el faro emite desde debajo del mar.</p>
+            <div class="director-strip" aria-label="Dirección narrativa">
+              <span><small>ARCO</small><b id="arc-phase">HOOK</b></span>
+              <span><small>TENSIÓN</small><b id="director-tension">0</b></span>
+              <span><small>NIVEL</small><b id="player-level">1</b></span>
+              <span><small>XP</small><b id="player-xp">0/100</b></span>
+            </div>
+            <p class="director-note" id="director-note">La señal acaba de despertar.</p>
+            <div class="descent-panel" aria-label="Progreso del descenso">
+              <div class="descent-panel__top"><div><p class="kicker">DESCENSO</p><strong id="descent-stage">I · SOSPECHA</strong></div><span id="descent-index">01</span></div>
+              <p id="descent-copy">Algo no encaja. El mundo todavía puede fingir que todo sigue en su sitio.</p>
+              <div class="descent-meter" role="progressbar" aria-label="Progreso del descenso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="2"><i id="descent-meter-fill"></i></div>
+              <div class="descent-panel__foot"><span>Progreso del umbral</span><b id="descent-progress">2%</b></div>
+            </div>
+            <div class="trajectory-summary" id="trajectory-summary" aria-label="Trayectoria de la campaña" hidden></div>
+          </section>
+
+          <button class="sidebar-mobile-close" type="button" data-close-sidebar>Volver a la historia</button>
+        </aside>
+
+        <div class="story-column">
+          <div class="story-toolbar" aria-label="Herramientas de edición">
+            <div>
+              <button class="tool-btn" id="undo-btn" type="button" disabled title="Deshacer último turno">↶ <span>Deshacer</span></button>
+              <button class="tool-btn" id="redo-btn" type="button" disabled title="Rehacer turno">↷ <span>Rehacer</span></button>
+            </div>
+            <button class="tool-btn" id="focus-mode-btn" type="button" aria-pressed="false">◐ <span>Modo lectura</span></button>
+          </div>
+          <div class="scene-rail" id="scene-rail" aria-live="polite">
+            <img id="scene-rail-image" src="assets/art-webp/pozo-rojo.webp" alt="Atmósfera de la escena" decoding="async">
+            <div><span>ESCENA ACTUAL</span><strong id="scene-rail-title">El mundo todavía contiene la respiración</strong><small id="scene-rail-caption">La imagen cambiará cuando la partida deje una marca.</small></div>
+          </div>
+          <div class="immersion-flash" id="immersion-flash" hidden aria-live="assertive"></div>
+
+          <article class="story-feed" id="story-feed" aria-live="polite" aria-relevant="additions"></article>
+
+          <div class="composer-wrap">
+            <div class="turn-notice" id="turn-notice" hidden></div>
+            <div class="mode-tabs" role="tablist" aria-label="Modo de acción">
+              <button class="mode-tab is-active" type="button" role="tab" aria-selected="true" data-mode="do"><span>Actuar</span><small>Do · acción</small></button>
+              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="say"><span>Hablar</span><small>Say · diálogo</small></button>
+              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="story"><span>Narrar</span><small>Story · autor</small></button>
+              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="continue"><span>Continuar</span><small>Continue · avanzar</small></button>
+              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="see"><span>Visión</span><small>See · imagen</small></button>
+              <button class="mode-tab mode-tab--combat" type="button" role="tab" aria-selected="false" data-mode="attack" hidden><span>⚔</span><small>Atacar</small></button>
+              <button class="mode-tab mode-tab--combat" type="button" role="tab" aria-selected="false" data-mode="defend" hidden><span>◈</span><small>Defender</small></button>
+            </div>
+            <div class="suggestion-row" id="suggestion-row" aria-label="Decisiones sugeridas"></div>
+            <div class="composer">
+              <label class="sr-only" for="action-input">Tu acción</label>
+              <textarea id="action-input" rows="2" maxlength="1200" placeholder="¿Qué haces? Describe cualquier acción…"></textarea>
+              <div class="composer__bottom">
+                <span id="input-hint">Ctrl + Enter para enviar</span>
+                <button class="send-btn" id="send-action" type="button"><span>Enviar</span><b aria-hidden="true">↑</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="game-sidebar game-sidebar--right" aria-label="Archivo de la aventura">
+          <div class="sidebar-tabs" role="tablist" aria-label="Archivo">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-side-tab="clues">Pistas</button>
+            <button type="button" role="tab" aria-selected="false" data-side-tab="inventory">Equipo</button>
+            <button type="button" role="tab" aria-selected="false" data-side-tab="memory">Memoria</button>
+          </div>
+          <div class="side-panel is-active" data-side-panel="clues">
+            <div class="sidebar-title"><h3>Hallazgos</h3><span id="clue-count">0</span></div>
+            <div class="dossier-list" id="clue-list"></div>
+          </div>
+          <div class="side-panel" data-side-panel="inventory">
+            <div class="sidebar-title"><h3>Inventario</h3><span id="inventory-count">0</span></div>
+            <div class="dossier-list" id="inventory-list"></div>
+          </div>
+          <div class="side-panel" data-side-panel="memory">
+            <div class="sidebar-title"><h3>Recuerdos</h3><span id="memory-count">0</span></div>
+            <div class="dossier-list" id="memory-list"></div>
+          </div>
+          <button class="sidebar-mobile-close" type="button" data-close-sidebar>Volver a la historia</button>
+        </aside>
+      </div>
+
+      <div class="mobile-game-nav" aria-label="Paneles de partida">
+        <button type="button" data-mobile-panel="left"><span>◈</span> Estado</button>
+        <button type="button" data-mobile-panel="story" class="is-active"><span>⌁</span> Historia</button>
+        <button type="button" data-mobile-panel="right"><span>▤</span> Archivo</button>
+      </div>
+    </section>
+  </main>
+
+
+  <dialog class="modal" id="install-help-dialog">
+    <div class="modal__shell modal__shell--narrow">
+      <div class="modal__header">
+        <div><p class="kicker">INSTALACIÓN PWA</p><h2 id="install-help-title">Instalar como aplicación</h2></div>
+        <button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal__body prose">
+        <p id="install-help-copy">El navegador todavía no ha ofrecido el instalador automático.</p>
+        <ol id="install-help-steps" class="install-help-steps">
+          <li>Busca la opción de instalación en el menú del navegador.</li>
+        </ol>
+        <p class="fine-print">La instalación solo añade la PWA al dispositivo; tus aventuras siguen guardándose localmente y la app puede continuar usándose desde el navegador.</p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--primary" type="button" data-close-dialog>Entendido</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="settings-dialog">
+    <form method="dialog" class="modal__shell" id="settings-form">
+      <div class="modal__header">
+        <div><p class="kicker">CONFIGURACIÓN</p><h2>Ajustes del narrador</h2></div>
+        <button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal__body settings-body">
+        <section>
+          <h3>Motor narrativo</h3>
+          <div class="engine-options">
+            <label class="radio-card">
+              <input type="radio" name="engine" value="offline" checked>
+              <span><b>Director 404</b><small>Privado, inmediato y sin conexión. Usa reglas y prosa procedural.</small></span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="engine" value="remote">
+              <span><b>IA compatible</b><small>Conecta Ollama, LM Studio u otra API OpenAI-compatible.</small></span>
+            </label>
+          </div>
+          <div class="remote-settings" id="remote-settings" hidden>
+            <label class="field"><span>Endpoint</span><input name="endpoint" type="url" placeholder="http://localhost:11434/v1/chat/completions"></label>
+            <div class="field-grid">
+              <label class="field"><span>Modelo</span><input name="model" placeholder="llama3.2"></label>
+              <label class="field"><span>Clave API <small>(solo esta sesión)</small></span><input name="apiKey" type="password" autocomplete="off" placeholder="Opcional para local"></label>
+            </div>
+            <p class="warning-note">La clave nunca se exporta ni se guarda de forma permanente. El servidor debe permitir CORS. Algunos navegadores bloquean endpoints HTTP desde GitHub Pages.</p>
+            <button class="btn btn--ghost btn--small" id="test-connection" type="button">Probar conexión</button>
+            <span class="connection-result" id="connection-result" role="status"></span>
+          </div>
+        </section>
+
+        <section>
+          <h3>Dirección narrativa</h3>
+          <div class="field-grid">
+            <label class="field"><span>Creatividad</span><input name="temperature" type="range" min="0.2" max="1.4" step="0.1" value="0.8"><output>0.8</output></label>
+            <label class="field"><span>Longitud</span><select name="responseLength"><option value="short">Breve</option><option value="medium" selected>Equilibrada</option><option value="long">Extensa</option></select></label>
+            <label class="field"><span>Contexto</span><select name="contextBudget"><option value="2048">2.048 tokens</option><option value="4096" selected>4.096 tokens</option><option value="8192">8.192 tokens</option><option value="16384">16.384 tokens</option></select></label>
+            <label class="switch-row switch-row--compact"><span><strong>Mostrar tiradas</strong><small>Hace visibles las reglas.</small></span><input name="showRolls" type="checkbox" role="switch" checked><i></i></label>
+          </div>
+        </section>
+
+        <section>
+          <h3>Experiencia</h3>
+          <div class="field-grid">
+            <label class="switch-row switch-row--compact"><span><strong>Reducir movimiento</strong><small>Desactiva pulsos y niebla.</small></span><input name="reducedMotion" type="checkbox" role="switch"><i></i></label>
+            <label class="field"><span>Tamaño del relato</span><select name="fontScale"><option value="0.95">Compacto</option><option value="1" selected>Normal</option><option value="1.12">Grande</option><option value="1.25">Muy grande</option></select></label>
+            <label class="field"><span>Skin del interfaz</span><select name="skin" id="skin-select"><option value="cosmic">Cósmica</option><option value="obsidian">Obsidiana</option><option value="void">Void OLED</option><option value="glass">Glass</option><option value="terminal">Terminal</option><option value="arctic">Arctic</option><option value="synthwave">Synthwave</option></select><small>El cambio se guarda en este dispositivo.</small></label>
+            <label class="field"><span>Ambiente sonoro</span><select name="audioProfile"><option value="abismo">Abismo</option><option value="mar">Marea profunda</option><option value="radio">Radio muerta</option><option value="nave">Nave abandonada</option></select></label>
+            <label class="field"><span>Volumen del ambiente</span><select name="audioVolume"><option value="0.06">Suave</option><option value="0.10">Medio</option><option value="0.14" selected>Inmersivo</option><option value="0.20">Intenso</option></select></label>
+          </div>
+        </section>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--ghost" type="button" data-close-dialog>Cancelar</button>
+        <button class="btn btn--primary" id="save-settings" type="submit" value="default">Guardar ajustes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="onboarding-dialog">
+    <div class="modal__shell modal__shell--narrow">
+      <div class="modal__header"><div><p class="kicker">PRIMER DESCENSO</p><h2>Bienvenido a Caminos Malditos</h2></div><button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <div class="modal__body prose onboarding-copy">
+        <p>Una aventura narrativa en la que tus acciones cambian el mundo, las pistas y tu estado mental. No necesitas cuenta ni servidor.</p>
+        <ol>
+          <li><strong>Elige un expediente</strong> o crea uno propio.</li>
+          <li><strong>Actuar</strong> describe lo que haces; <strong>Hablar</strong> escribe tus palabras.</li>
+          <li><strong>Narrar</strong> fuerza un hecho; <strong>Continuar</strong> deja avanzar la escena.</li>
+          <li><strong>Visión</strong> genera una imagen procedural de la escena.</li>
+        </ol>
+        <p class="fine-print">La aventura se guarda automáticamente en este dispositivo. Puedes exportarla y continuarla más tarde.</p>
+      </div>
+      <div class="modal__footer"><button class="btn btn--primary" id="onboarding-start" type="button">Empezar el descenso →</button></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="help-dialog">
+    <div class="modal__shell modal__shell--narrow">
+      <div class="modal__header">
+        <div><p class="kicker">MANUAL DE CAMPO</p><h2>Cómo sobrevivir</h2></div>
+        <button class="icon-btn" data-close-dialog aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal__body prose">
+        <h3>Cinco formas de intervenir</h3>
+        <dl class="mode-help">
+          <div><dt>Actuar · Do</dt><dd>Describe una acción: investigar, huir, manipular un objeto o asumir un riesgo.</dd></div>
+          <div><dt>Hablar · Say</dt><dd>Escribe lo que dices. El narrador decide cómo responde el mundo.</dd></div>
+          <div><dt>Narrar · Story</dt><dd>Introduce directamente un hecho. Es tu herramienta de autor.</dd></div>
+          <div><dt>Continuar · Continue</dt><dd>Deja que la escena avance sin aportar una acción.</dd></div>
+          <div><dt>Visión · See</dt><dd>Crea una visión procedural exportable de la escena actual.</dd></div>
+        </dl>
+        <h3>Lo que sí es real</h3>
+        <p>El Director 404 no finge ser un gran modelo de lenguaje: construye escenas mediante reglas, continuidad y bancos narrativos. Si conectas una IA compatible, esta redacta la prosa mientras Caminos Malditos Sangrientos conserva el estado estructurado.</p>
+        <h3>Privacidad</h3>
+        <p>En modo local, aventuras, escenarios y memoria permanecen en tu navegador. Al activar una API externa, se envía el paquete de contexto mostrado en el Inspector.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="context-dialog">
+    <div class="modal__shell modal__shell--wide">
+      <div class="modal__header">
+        <div><p class="kicker">TRANSPARENCIA</p><h2>Inspector de contexto</h2></div>
+        <button class="icon-btn" data-close-dialog aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal__body">
+        <div class="context-meter">
+          <div><span id="context-used">0</span><small>tokens estimados usados</small></div>
+          <div><span id="context-budget">4.096</span><small>presupuesto disponible</small></div>
+          <div><span id="context-memory-score">0</span><small>recuerdos recuperados</small></div>
+        </div>
+        <div class="context-allocation" id="context-allocation" aria-label="Distribución del contexto"></div>
+        <label class="field"><span>Paquete que recibe el narrador</span><textarea id="context-packet" rows="18" readonly></textarea></label>
+        <p class="fine-print">La estimación local usa aproximadamente cuatro caracteres por token. El conteo real depende del modelo.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="edit-turn-dialog">
+    <form method="dialog" class="modal__shell modal__shell--narrow" id="edit-turn-form">
+      <div class="modal__header"><div><p class="kicker">CONTROL DE AUTOR</p><h2>Editar respuesta</h2></div><button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <div class="modal__body"><label class="field"><span>Texto narrativo</span><textarea name="turnText" rows="14" maxlength="8000" required></textarea></label></div>
+      <div class="modal__footer"><button class="btn btn--ghost" type="button" data-close-dialog>Cancelar</button><button class="btn btn--primary" id="confirm-edit-turn" type="submit" value="default">Aplicar cambio</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="game-menu-dialog">
+    <div class="modal__shell modal__shell--narrow">
+      <div class="modal__header"><div><p class="kicker">EXPEDIENTE</p><h2>Opciones de partida</h2></div><button class="icon-btn" data-close-dialog aria-label="Cerrar">×</button></div>
+      <div class="modal__body action-stack">
+        <button class="action-row" id="export-story-btn" type="button"><span><b>Exportar relato Markdown</b><small>Historia limpia, estadísticas y hallazgos.</small></span><i>↓</i></button>
+        <button class="action-row" id="copy-ritual-code-btn" type="button"><span><b>Copiar código de ritual</b><small>Transfiere una partida pequeña mediante texto.</small></span><i>⌘</i></button>
+        <button class="action-row" id="import-adventure-btn" type="button"><span><b>Importar aventura</b><small>Abre un archivo .abyss404 validado.</small></span><i>↑</i></button>
+        <button class="action-row" id="save-chapter-checkpoint-btn" type="button"><span><b>Guardar checkpoint</b><small>Conserva esta ruta antes de una decisión peligrosa.</small></span><i>◆</i></button>
+        <button class="action-row" id="restore-chapter-checkpoint-btn" type="button"><span><b>Restaurar checkpoint</b><small>Vuelve al último punto guardado de esta aventura.</small></span><i>↶</i></button>
+        <button class="action-row" id="open-report-btn" type="button"><span><b>Ver informe del descenso</b><small>Decisiones, hallazgos, recuerdos y final de la aventura.</small></span><i>◌</i></button>
+        <button class="action-row action-row--danger" id="delete-adventure-btn" type="button"><span><b>Eliminar esta aventura</b><small>Borra el guardado local; antes podrás exportarlo.</small></span><i>×</i></button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="report-dialog">
+    <div class="modal__shell modal__shell--narrow">
+      <div class="modal__header"><div><p class="kicker">INFORME DE PARTIDA</p><h2 id="report-title">Tu descenso</h2></div><button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <div class="modal__body report-body">
+        <div class="report-hero"><span id="report-stage">I · SOSPECHA</span><strong id="report-ending">Informe provisional</strong><p id="report-location">La aventura sigue abierta.</p></div>
+        <div class="report-grid" aria-label="Estadísticas de la aventura">
+          <div><b id="report-actions">0</b><span>decisiones</span></div>
+          <div><b id="report-clues">0</b><span>pistas</span></div>
+          <div><b id="report-memories">0</b><span>recuerdos</span></div>
+          <div><b id="report-visions">0</b><span>visiones</span></div>
+          <div><b id="report-chapter">1</b><span>capítulo</span></div>
+          <div><b id="report-threshold">2%</b><span>umbral</span></div>
+        </div>
+        <div class="report-objective"><p class="kicker">ÚLTIMA SEÑAL</p><p id="report-objective">El expediente todavía está escribiéndose.</p></div>
+        <div class="report-ending-detail" id="report-ending-detail" hidden>
+          <div><p class="kicker">DECISIÓN</p><p id="report-climax"></p></div>
+          <div><p class="kicker">CONSECUENCIA</p><p id="report-consequence"></p></div>
+          <div class="report-epilogue"><p class="kicker" id="report-epilogue-meta">EPÍLOGO</p><p id="report-epilogue-copy"></p><blockquote id="report-final-line"></blockquote></div>
+        </div>
+        <div class="report-conditions" id="report-conditions" hidden><p class="kicker">MARCAS CONSERVADAS</p><div></div></div>
+      </div>
+      <div class="modal__footer"><button class="btn btn--primary" type="button" data-close-dialog>Cerrar informe</button></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="ritual-dialog">
+    <form method="dialog" class="modal__shell modal__shell--narrow" id="ritual-form">
+      <div class="modal__header"><div><p class="kicker">MODO DE MESA</p><h2>Abrir código de ritual</h2></div><button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <div class="modal__body prose">
+        <p>Pega un código <strong>ABYSS404</strong> para crear una copia local de la aventura. El código transporta estado, turnos y memoria; no crea sincronización remota.</p>
+        <label class="field"><span>Código</span><textarea name="ritualCode" rows="8" maxlength="300000" required placeholder="ABYSS404.1.…"></textarea></label>
+      </div>
+      <div class="modal__footer"><button class="btn btn--ghost" type="button" data-close-dialog>Cancelar</button><button class="btn btn--primary" type="submit" value="default">Abrir copia</button></div>
+    </form>
+  </dialog>
+
+  <input id="scenario-file-input" type="file" accept=".json,.abyss-scenario.json,application/json" hidden>
+  <input id="adventure-file-input" type="file" accept=".abyss404,.json,application/json" hidden>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/scenarios.js" defer></script>
+  <script src="js/endings.js" defer></script>
+  <script src="js/engine.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

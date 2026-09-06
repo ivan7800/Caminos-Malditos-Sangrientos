@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">ABYSS 404</title>
+  <desc id="desc">Un ojo abstracto rodeado por tres órbitas sobre un fondo verde oscuro.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="70%">
+      <stop offset="0" stop-color="#17382d"/>
+      <stop offset="0.58" stop-color="#091713"/>
+      <stop offset="1" stop-color="#030706"/>
+    </radialGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#e2ff9b"/>
+      <stop offset="0.25" stop-color="#b9db6d"/>
+      <stop offset="1" stop-color="#62c8ae" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="176" fill="none" stroke="#7da997" stroke-opacity=".22" stroke-width="3" stroke-dasharray="5 13"/>
+  <circle cx="256" cy="256" r="133" fill="none" stroke="#b9db6d" stroke-opacity=".34" stroke-width="3"/>
+  <circle cx="256" cy="256" r="94" fill="none" stroke="#62c8ae" stroke-opacity=".3" stroke-width="2"/>
+  <circle cx="256" cy="256" r="54" fill="url(#glow)" opacity=".34" filter="url(#soft)"/>
+  <path d="M158 256c30-45 64-68 98-68s68 23 98 68c-30 45-64 68-98 68s-68-23-98-68Z" fill="#07110f" stroke="#b9db6d" stroke-width="5"/>
+  <circle cx="256" cy="256" r="25" fill="#b9db6d"/>
+  <circle cx="256" cy="256" r="10" fill="#07110f"/>
+  <path d="M256 56v24M256 432v24M56 256h24M432 256h24" stroke="#b9db6d" stroke-width="4" stroke-linecap="round" opacity=".64"/>
+  <path d="M119 119l17 17M376 376l17 17M393 119l-17 17M136 376l-17 17" stroke="#62c8ae" stroke-width="3" stroke-linecap="round" opacity=".48"/>
+</svg>
