@@ -2,6 +2,16 @@
 
 Los cambios relevantes de ABYSS 404 se documentan en este archivo.
 
+## 4.1.5 — PWA Install & Update Fix
+
+- Eliminado el registro duplicado del Service Worker entre `app.js` y `update.js`.
+- Evitado el aviso repetitivo cuando el worker en espera coincide con el controlador actual.
+- Añadida supresión por sesión al descartar una actualización.
+- Registro con `updateViaCache: none` y espera de `serviceWorker.ready`.
+- Manifest ajustado para Chrome PC con iconos PNG estándar 192/512.
+- Nuevo test `pwa-single-owner.test.js`.
+- Caché `abyss404-v4.1.5`.
+
 ## 4.1.4 — Update Reliability
 
 - Cache-busting de recursos críticos.

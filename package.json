@@ -1,10 +1,10 @@
 {
   "name": "abyss-404",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "private": true,
   "description": "Motor narrativo local-first de horror cósmico",
   "scripts": {
-    "test": "node --check js/scenarios.js && node --check js/engine.js && node --check js/storage.js && node --check js/app.js && node --check sw.js && node tests/engine.test.js && node tests/narrative-stress.test.js && node tests/install-flow.test.js && node tests/sw-navigation.test.js && node tests/update-flow.test.js && node tests/validate-project.js"
+    "test": "node --check js/scenarios.js && node --check js/engine.js && node --check js/storage.js && node --check js/app.js && node --check sw.js && node tests/engine.test.js && node tests/narrative-stress.test.js && node tests/install-flow.test.js && node tests/sw-navigation.test.js && node tests/update-flow.test.js && node tests/pwa-single-owner.test.js && node tests/validate-project.js"
   },
   "license": "MIT"
 }

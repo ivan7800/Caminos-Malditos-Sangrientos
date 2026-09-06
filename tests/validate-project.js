@@ -48,6 +48,7 @@ assert.match(html, /data-mode=["']continue["'][^>]*>.*Continuar/s);
 assert.match(html, /data-mode=["']see["'][^>]*>.*Visión/s);
 ["cosmic", "obsidian", "void", "glass", "terminal", "arctic", "synthwave"].forEach((skin) => assert.match(css, new RegExp(`data-skin=["']${skin}["']`)));
 const appJs = fs.readFileSync(path.join(root, "js/app.js"), "utf8");
+const updateJs = fs.readFileSync(path.join(root, "js/update.js"), "utf8");
 assert.match(appJs, /await context\.resume\(\)/);
 assert.match(appJs, /scenario-card__art/);
 assert.match(appJs, /scenario-card__gallery/);
@@ -74,7 +75,7 @@ assert.equal(new Set(ids).size, ids.length, "No debe haber identificadores HTML 
 assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, "Las llaves CSS no están equilibradas");
 assert.match(css, /\.settings-body\s*\{[\s\S]*height:\s*min\(720px,\s*calc\(100vh\s*-\s*190px\)\)/, "Los ajustes deben tener un área desplazable limitada");
 assert.match(css, /\.modal__shell\s*\{[\s\S]*display:\s*flex/, "Los diálogos deben reservar el footer fuera del scroll");
-assert.match(appJs, /registration\.update\(\)/, "El Service Worker debe comprobar actualizaciones");
+assert.match(updateJs, /reg\.update\(\)/, "El módulo de actualización debe comprobar actualizaciones");
 assert.match(appJs, /function renderImmersion\(\)/, "Debe renderizar el estado del descenso");
 assert.match(appJs, /function showReport\(\)/, "Debe existir un informe de partida");
 assert.match(appJs, /report.endingData/, "El informe debe mostrar el final específico y su epílogo");
@@ -92,7 +93,7 @@ const sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");
 const shellMatches = [...sw.matchAll(/["']\.\/(?!#)([^"']+)["']/g)].map((match) => match[1]);
 shellMatches.filter((file) => file !== "").forEach((file) => { const diskPath = file.split(/[?#]/, 1)[0]; assert.ok(fs.existsSync(path.join(root, diskPath)), `El Service Worker referencia un archivo inexistente: ${file}`); });
 
-const fileCount = fs.readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile()).length;
+const fileCount = fs.readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile() && !entry.parentPath.includes(`${path.sep}.git${path.sep}`) && !entry.parentPath.includes(`${path.sep}.github${path.sep}`)).length;
 assert.ok(fileCount < 100, `El proyecto supera 100 archivos: ${fileCount}`);
 
 console.log(`✓ Proyecto estático validado (${fileCount} archivos, sin dependencias remotas)`);

@@ -1,4 +1,4 @@
-# Auditoría de experiencia y release — v4.1.4
+# Auditoría de experiencia y release — v4.1.5
 
 **Estado:** Stable / Definitive. Incluye hardening del Service Worker para impedir que respuestas 404 sustituyan la copia offline de `index.html`.
 
@@ -80,3 +80,8 @@ Se ejecuta `tests/narrative-stress.test.js` sobre las 14 campañas con **170 com
 ## Update Reliability 4.1.4
 
 Recursos críticos versionados y actualización visible/controlada del Service Worker con recarga segura y preservación del almacenamiento local.
+
+
+## PWA Install & Update Fix 4.1.5
+
+Se elimina el doble registro del Service Worker y se endurece el flujo de actualización/instalación para Chrome PC.

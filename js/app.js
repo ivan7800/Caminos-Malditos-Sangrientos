@@ -127,8 +127,8 @@
     }
     if (env.isChrome) {
       title.textContent = "Instalar desde Google Chrome";
-      copy.textContent = "Chrome todavía no ha ofrecido el diálogo automático para esta sesión.";
-      steps.innerHTML = "<li>Busca el icono de instalación en la barra de direcciones o abre el menú ⋮.</li><li>Elige Instalar Caminos Malditos Sangrientos.</li><li>Si la opción no aparece, recarga una vez y comprueba que estás usando HTTPS.</li>";
+      copy.textContent = "Chrome no ha ofrecido todavía el diálogo nativo. La app comprobará el Service Worker y el manifest, pero Chrome decide cuándo habilita el prompt de instalación.";
+      steps.innerHTML = "<li>Espera a que termine la primera carga y recarga una vez si acabas de actualizar.</li><li>Busca el icono de instalación en la barra de direcciones o abre ⋮ → Transmitir, guardar y compartir → Instalar página como aplicación.</li><li>Si no aparece, abre chrome://apps para comprobar que no exista ya una instalación anterior y vuelve a esta URL HTTPS.</li>";
       return;
     }
     title.textContent = "Instalar como aplicación";
@@ -1419,13 +1419,6 @@
     });
   }
 
-  function registerServiceWorker() {
-    if (!("serviceWorker" in navigator) || !/^https?:$/.test(location.protocol)) return;
-    navigator.serviceWorker.register("./sw.js").then((registration) => registration.update()).catch(() => {
-      // Offline install is optional; the app remains fully usable online or from a local folder.
-    });
-  }
-
   async function boot() {
     if (!Engine || !Storage || !ScenarioTools) {
       document.body.innerHTML = "<main style='padding:2rem;color:white'>ABYSS 404 no pudo cargar sus módulos. Vuelve a extraer todos los archivos del ZIP.</main>";
@@ -1449,7 +1442,6 @@
     studioQuality();
     await Promise.all([refreshScenarios(), refreshAdventures()]);
     setupBroadcastChannel();
-    registerServiceWorker();
     let onboardingSeen = false;
     try { onboardingSeen = localStorage.getItem("abyss404:onboarding-seen") === "1"; } catch (_) { /* optional */ }
     if (!onboardingSeen) setTimeout(() => showDialog("onboarding-dialog"), 250);
