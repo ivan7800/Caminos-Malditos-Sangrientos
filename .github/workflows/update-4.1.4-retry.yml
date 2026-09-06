@@ -1,0 +1,54 @@
+name: Retry PWA update 4.1.4
+on:
+  push:
+    paths:
+      - '.github/workflows/update-4.1.4-retry.yml'
+permissions:
+  contents: write
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reuse validated migration patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import textwrap
+          src = Path('.github/workflows/update-4.1.4.yml').read_text()
+          start = src.index('        run: |\n', src.index('Apply v4.1.4 update reliability patch')) + len('        run: |\n')
+          end = src.index('      - name: Test release', start)
+          block = textwrap.dedent(src[start:end])
+          Path('/tmp/migrate-414.sh').write_text(block)
+          PY
+          bash /tmp/migrate-414.sh
+      - name: Make project file count VCS-safe
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tests/validate-project.js')
+          s=p.read_text()
+          old='const fileCount = fs.readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile()).length;'
+          new='const fileCount = fs.readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile() && !String(entry.parentPath || entry.path || "").split(path.sep).includes(".git")).length;'
+          if old not in s:
+              raise SystemExit('No se encontró el contador esperado')
+          p.write_text(s.replace(old,new))
+          PY
+      - name: Test release
+        run: npm test
+      - name: Commit release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          rm -f .github/workflows/update-4.1.4.yml .github/workflows/update-4.1.4-retry.yml
+          git config user.name "Universe 404 Release Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "fix: reliable PWA updates in v4.1.4"
+          git push
