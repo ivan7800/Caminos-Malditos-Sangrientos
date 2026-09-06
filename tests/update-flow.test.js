@@ -1,0 +1,5 @@
+"use strict";
+const fs=require("fs"),path=require("path"),root=path.resolve(__dirname,"..");
+const html=fs.readFileSync(path.join(root,"index.html"),"utf8"),up=fs.readFileSync(path.join(root,"js/update.js"),"utf8"),sw=fs.readFileSync(path.join(root,"sw.js"),"utf8");
+const checks=[[html.includes("styles.css?v=4.1.4"),"CSS versionado"],[html.includes("js/app.js?v=4.1.4"),"app versionada"],[html.includes('id="update-banner"'),"banner"],[up.includes("updatefound"),"updatefound"],[up.includes("reg.waiting"),"waiting"],[up.includes("SKIP_WAITING"),"skip waiting explícito"],[up.includes("controllerchange"),"controllerchange"],[up.includes("location.reload()"),"recarga"],[sw.includes("abyss404-v4.1.4"),"cache 4.1.4"],[sw.includes('event.data.type === "SKIP_WAITING"'),"mensaje SW"],[!sw.includes('cache.addAll(APP_SHELL)).then(() => self.skipWaiting())'),"sin salto automático"]];
+const fail=checks.filter(([ok])=>!ok);if(fail.length){fail.forEach(([,x])=>console.error("✗ "+x));process.exit(1)}console.log(`✓ Flujo de actualización verificado (${checks.length} comprobaciones)`);

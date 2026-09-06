@@ -1,4 +1,4 @@
-# Auditoría de experiencia y release — v4.1.3
+# Auditoría de experiencia y release — v4.1.4
 
 **Estado:** Stable / Definitive. Incluye hardening del Service Worker para impedir que respuestas 404 sustituyan la copia offline de `index.html`.
 
@@ -75,3 +75,8 @@ Estas comprobaciones no se presentan como superadas desde este entorno.
 ## Stress test narrativo 4.1.1
 
 Se ejecuta `tests/narrative-stress.test.js` sobre las 14 campañas con **170 comprobaciones narrativas**: herramientas inexistentes, acciones imposibles, persistencia de muertes fuera del historial inmediato, resurrecciones explícitas mediante modo Historia, objetos destruidos y compatibilidad de finales. Resultado: **PASS**.
+
+
+## Update Reliability 4.1.4
+
+Recursos críticos versionados y actualización visible/controlada del Service Worker con recarga segura y preservación del almacenamiento local.

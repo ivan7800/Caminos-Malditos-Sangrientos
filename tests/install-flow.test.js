@@ -20,7 +20,7 @@ const checks = [
   [app.includes('/Chrome\\//'), "Se contempla Google Chrome"],
   [app.includes('/iPad|iPhone|iPod/'), "Se contempla iPhone/iPad"],
   [app.includes('showDialog("install-help-dialog")'), "El fallback nunca queda como botón muerto"],
-  [sw.includes('abyss404-v4.1.3'), "La caché PWA corresponde a v4.1.3"]
+  [sw.includes('abyss404-v4.1.4'), "La caché PWA corresponde a v4.1.4"]
 ];
 
 const failed = checks.filter(([ok]) => !ok);

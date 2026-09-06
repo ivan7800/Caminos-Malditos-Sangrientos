@@ -15,7 +15,7 @@ Creado por **I. Roig** para el Universo 404.
 - Un 404 de GitHub Pages ya no puede contaminar la caché de navegación de la PWA.
 - Se mantiene el fallback offline a la aplicación cuando la red no está disponible.
 - Añadido un test automático específico para este caso límite.
-- Caché PWA actualizada a `abyss404-v4.1.3`.
+- Caché PWA actualizada a `abyss404-v4.1.4`.
 
 ### Corrección de instalación 4.1.2
 

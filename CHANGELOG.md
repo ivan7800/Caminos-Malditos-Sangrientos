@@ -2,6 +2,14 @@
 
 Los cambios relevantes de ABYSS 404 se documentan en este archivo.
 
+## 4.1.4 — Update Reliability
+
+- Cache-busting de recursos críticos.
+- Aviso de nueva versión con **Actualizar ahora**.
+- Actualización controlada del Service Worker mediante `SKIP_WAITING` y recarga tras `controllerchange`.
+- Nuevo test de regresión del flujo de actualización.
+- Caché `abyss404-v4.1.4`.
+
 ## 4.1.3 — Stable / Offline Cache Hardening
 
 - Corregido un caso límite del Service Worker: una navegación con respuesta HTTP no satisfactoria (por ejemplo, un 404 de GitHub Pages) ya no puede sustituir la copia offline de `index.html`.

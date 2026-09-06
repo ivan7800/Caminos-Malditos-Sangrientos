@@ -1,11 +1,12 @@
 "use strict";
 
-const CACHE_VERSION = "abyss404-v4.1.3";
+const CACHE_VERSION = "abyss404-v4.1.4";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./manifest.webmanifest",
+  "./styles.css?v=4.1.4",
+  "./update.css?v=4.1.4",
+  "./manifest.webmanifest?v=4.1.4",
   "./assets/icon.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
@@ -24,15 +25,16 @@ const APP_SHELL = [
   "./assets/art-webp/espiral-del-umbral.webp",
   "./assets/art-webp/pozo-rojo.webp",
   "./assets/art-webp/vision-carmesi.webp",
-  "./js/scenarios.js",
-  "./js/endings.js",
-  "./js/engine.js",
-  "./js/storage.js",
-  "./js/app.js"
+  "./js/update.js?v=4.1.4",
+  "./js/scenarios.js?v=4.1.4",
+  "./js/endings.js?v=4.1.4",
+  "./js/engine.js?v=4.1.4",
+  "./js/storage.js?v=4.1.4",
+  "./js/app.js?v=4.1.4"
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_VERSION).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(CACHE_VERSION).then((cache) => cache.addAll(APP_SHELL)));
 });
 
 self.addEventListener("activate", (event) => {
@@ -41,6 +43,10 @@ self.addEventListener("activate", (event) => {
       .then((keys) => Promise.all(keys.filter((key) => key.startsWith("abyss404-") && key !== CACHE_VERSION).map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("fetch", (event) => {
