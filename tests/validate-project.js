@@ -92,7 +92,7 @@ const sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");
 const shellMatches = [...sw.matchAll(/["']\.\/(?!#)([^"']+)["']/g)].map((match) => match[1]);
 shellMatches.filter((file) => file !== "").forEach((file) => { const diskPath = file.split(/[?#]/, 1)[0]; assert.ok(fs.existsSync(path.join(root, diskPath)), `El Service Worker referencia un archivo inexistente: ${file}`); });
 
-const fileCount = fs.readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile() && !String(entry.parentPath || entry.path || "").split(path.sep).includes(".git")).length;
+const fileCount = fs.readdirSync(root, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile()).length;
 assert.ok(fileCount < 100, `El proyecto supera 100 archivos: ${fileCount}`);
 
 console.log(`✓ Proyecto estático validado (${fileCount} archivos, sin dependencias remotas)`);
