@@ -1,85 +1,77 @@
 # Auditoría de experiencia y release — v4.1.3
 
+**Estado:** Stable / Definitive. Incluye hardening del Service Worker para impedir que respuestas 404 sustituyan la copia offline de `index.html`.
+
 Fecha: 2026-09-06  
 Producto: Caminos Malditos Sangrientos · Universo 404  
-Estado: **Stable / Definitive**
+Alcance: UX/UI, flujo principal, narrativa, PWA, rendimiento, accesibilidad, seguridad y empaquetado.
 
 ## Veredicto
 
-La v4.1.3 cierra la fase de hardening de la edición definitiva. Conserva la capa narrativa completa de 4.1.0, el ledger de continuidad de 4.1.1 y el flujo de instalación corregido de 4.1.2. Añade además una protección específica del Service Worker: una navegación con respuesta HTTP no satisfactoria —como un 404 de GitHub Pages— no puede sustituir la copia offline válida de `index.html`.
+La edición 4.1.1 conserva la capa narrativa definitiva de 4.1.0 y añade un refuerzo específico de continuidad: ledger persistente de personajes muertos y objetos perdidos/destruidos, bloqueo narrativo de herramientas no establecidas y acciones imposibles no justificadas, y reglas equivalentes para el motor remoto. La auditoría comprueba además diálogo de ajustes, formularios, Service Worker, rutas, PWA, persistencia, accesibilidad básica y layout móvil con viewport dinámico.
 
-La app se considera **publicable y estable a nivel de código y arquitectura**. Las comprobaciones automatizadas pasan y no se han detectado dependencias remotas de ejecución, rutas rotas conocidas ni regresiones en los 56 finales.
+La app queda como **release candidate publicable**, no como producto verificado en todos los dispositivos. El motor, la estructura estática, los 56 finales y las rutas locales pasan las comprobaciones automatizadas. La instalación PWA, el audio real y el modo offline completo deben confirmarse todavía en Chrome/Edge, Safari iOS y Android reales.
+
+## Test de usuario realizado
+
+Se revisó el recorrido de usuario nuevo y recurrente:
+
+1. Entrada en Inicio y comprensión de la propuesta.
+2. Acceso a Escenarios y búsqueda/filtros.
+3. Lectura visual de las 14 campañas.
+4. Favoritos y apertura de expediente.
+5. Configuración de personaje e intensidad.
+6. Flujo de partida y modos Actuar, Hablar, Narrar, Continuar y Visión.
+7. Guardado local, reanudación, exportación e importación.
+8. Ajustes, skins, audio, movimiento reducido e instalación.
+
+## Hallazgos corregidos
+
+- **Alta — incoherencia visual:** campañas con arte propio y campañas sin arte visible. Todas las tarjetas tienen ahora cabecera y tres visiones de apoyo, usando arte propio cuando existe y banco visual local cuando no.
+- **Alta — jerarquía rota en portada:** el icono grande de Universo 404 se superponía al arte orbital ya existente. Se mantiene el icono en la marca y PWA, y se recupera el arte orbital limpio.
+- **Media — botón Instalar confuso:** se convirtió en un CTA reconocible en escritorio y en control compacto en móvil; conserva instrucciones cuando el navegador no ofrece `beforeinstallprompt`.
+- **Media — sensación de lentitud/ruido:** se eliminó el grano animado a 0,22 s, se suavizó el fondo y se añadió una entrada escalonada de tarjetas con soporte para movimiento reducido.
+- **Media — títulos desplazados:** se corrigió el margen heredado que dejaba demasiado espacio vacío debajo del arte.
+- **Alta — partida plana:** se añadió un Descenso de cinco fases conectado al Umbral, con cambios de atmósfera y progreso visible.
+- **Alta — descubrimientos poco visibles:** pistas, recuerdos, cambios de capítulo, condiciones, visiones y finales generan eventos diegéticos persistentes y animados.
+- **Media — falta de cierre:** se añadió el informe del descenso, disponible durante la partida y automáticamente al alcanzar un final.
+- **Media — viewport móvil:** se añadió soporte progresivo para `100dvh` en la partida, diálogos y ajustes, manteniendo el fallback compatible.
+- **Alta — cierres genéricos:** cada una de las 14 campañas incorpora cuatro finales propios con estructura Decisión → Clímax → Consecuencia → Epílogo.
+- **Alta — decisiones sin memoria de largo recorrido:** conocimiento, corrupción, sacrificio, confianza, personas salvadas, verdades y obsesión se conservan por aventura y condicionan los finales alcanzables.
+- **Media — cierre poco exportable:** el informe y Markdown incluyen ahora el final específico, su epílogo y la trayectoria narrativa.
+- **Media — repetición editorial:** se revisaron títulos concretos de campañas largas como *Cuando el Tiempo Sangra* y *Espectro Rojo* sin alterar el número de capítulos.
 
 ## Evidencia automatizada
 
 - `npm test`: correcto.
 - Sintaxis JavaScript y Service Worker: correcta.
-- Motor, memoria, contexto, exportación y escenarios: PASS.
-- 14 campañas sometidas a stress test narrativo.
-- **170 comprobaciones narrativas**: PASS.
-- **56 finales específicos**: conservados.
-- **13 comprobaciones del flujo de instalación**: PASS.
-- **4 comprobaciones del hardening de navegación del Service Worker**: PASS.
-- La caché PWA usa `abyss404-v4.1.3`.
-- El Service Worker solo actualiza `index.html` cuando `response.ok === true`.
-- Se conserva el fallback offline a `index.html` cuando la red falla.
-- Manifest, iconos, recursos y rutas locales validados.
-- Sin scripts o estilos externos de ejecución.
-- CSP presente.
-- Sin TODO/FIXME, `javascript:void`, handlers inline ni secretos detectados en el paquete de release.
+- Eventos de inmersión y fases del Descenso verificados en el motor; el informe y la exportación incluyen sus datos.
+- 14 diseños narrativos cargados; **4 finales por diseño, 56 finales totales**.
+- Prueba de cierre forzado: las 14 campañas producen un final específico y un epílogo sin depender de un servicio externo.
+- Prueba de ramas: las cuatro ramas de cada campaña son seleccionables cuando se cumplen sus requisitos de trayectoria.
+- Prueba de compatibilidad: aventuras antiguas `ABYSS404.1` sin `endingData` siguen validando y recuperan el informe genérico o el final literario existente.
+- Smoke HTTP local: **26/26 recursos del Service Worker responden correctamente**.
+- Smoke de referencias DOM: **105/105 raíces de selector literal resueltas**.
+- Llaves CSS equilibradas: **627/627**.
+- 14 escenarios cargados; 5 tienen arte propio y 5 galería propia; los restantes usan fallback local validado.
+- 12 recursos WebP comprobados; no hay rutas de arte inexistentes.
+- 50 archivos en el árbol de trabajo y 38 en el paquete limpio; el paquete excluye el arte PNG de trabajo no usado.
+- Sin scripts ni estilos externos.
+- CSP presente y sin `unsafe-inline` en `script-src`.
+- Manifest, iconos, Service Worker y caché referencian recursos existentes.
+- No se detectaron TODO/FIXME, enlaces `javascript:void`, handlers inline ni secretos en el paquete.
 
-## Cobertura funcional
+## Pendiente de verificación externa
 
-Se revisan y mantienen:
+- Sonido audible con altavoces reales y comportamiento de suspensión de `AudioContext` en Safari/iOS.
+- Instalación, actualización de caché y reapertura offline en Chrome/Edge/iOS/Android.
+- Prueba táctil real a 320–390 px, teclado virtual y partidas largas.
+- Publicación real en GitHub Pages con la subruta definitiva.
+- El navegador Chromium no está instalado en este entorno; no se presenta como superada una prueba visual/táctil real.
 
-1. Inicio, biblioteca de escenarios y filtros.
-2. Configuración de personaje, perspectiva e intensidad.
-3. Modos Actuar, Hablar, Narrar, Continuar y Visión.
-4. Descenso, estado, pistas, inventario y memoria.
-5. Guardado, reanudación, checkpoints, undo/redo y regeneración.
-6. Informe final y exportaciones.
-7. 14 campañas y 56 desenlaces.
-8. Instalación PWA con prompt nativo o guía alternativa.
-9. Modo offline y actualización de caché.
-10. Ajustes, skins, sonido y movimiento reducido.
-11. Creación, importación y exportación de escenarios.
-12. Integración opcional con APIs OpenAI-compatible.
+Estas comprobaciones no se presentan como superadas desde este entorno.
 
-## Correcciones finales
 
-### 4.1.1 — Continuity Hardened
+## Stress test narrativo 4.1.1
 
-- Persistencia de hechos críticos de continuidad.
-- Personajes muertos no reaparecen como vivos sin justificación.
-- Objetos destruidos/perdidos no reaparecen silenciosamente.
-- Herramientas inexistentes no se materializan para resolver una acción.
-- Acciones imposibles se tratan como intentos salvo que exista un medio o anomalía establecida.
-
-### 4.1.2 — Install Flow Bugfix
-
-- El botón Instalar usa `beforeinstallprompt` cuando está disponible.
-- Fallback específico para Chrome, Edge, iPhone/iPad, otros navegadores y `file://`.
-- Detección de ejecución en modo PWA instalada.
-
-### 4.1.3 — Offline Cache Hardening
-
-- Una respuesta 404/500 ya no puede reemplazar la copia offline de `index.html`.
-- La caché de navegación solo se actualiza con respuestas `ok`.
-- Nuevo test de regresión `tests/sw-navigation.test.js`.
-- Nueva versión de caché `abyss404-v4.1.3`.
-
-## Verificación física recomendada
-
-La automatización no sustituye las pruebas sobre hardware real. Para certificar completamente la experiencia de usuario conviene comprobar la URL publicada en:
-
-- Chrome/Edge de escritorio.
-- Chrome Android.
-- Safari/iOS y PWA añadida a pantalla de inicio.
-
-Probar especialmente instalación, actualización del Service Worker, teclado virtual, audio, cambio de orientación, reapertura offline y una partida prolongada.
-
-Estas comprobaciones son QA de dispositivo; no se consideran funcionalidades pendientes.
-
-## Conclusión
-
-**v4.1.3 queda marcada como Stable / Definitive.** A partir de esta versión se recomienda feature freeze: cualquier siguiente release debería ser un bugfix motivado por un problema real encontrado durante uso o pruebas físicas, no una ampliación de funciones.
+Se ejecuta `tests/narrative-stress.test.js` sobre las 14 campañas con **170 comprobaciones narrativas**: herramientas inexistentes, acciones imposibles, persistencia de muertes fuera del historial inmediato, resurrecciones explícitas mediante modo Historia, objetos destruidos y compatibilidad de finales. Resultado: **PASS**.
