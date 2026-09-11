@@ -82,6 +82,21 @@
     }, type === "error" ? 6500 : 3600);
   }
 
+
+  function applyAdvancedControls(enabled, persist = true) {
+    document.body.classList.toggle("advanced-controls", Boolean(enabled));
+    const button = $("#advanced-controls-toggle");
+    if (button) button.setAttribute("aria-expanded", String(Boolean(enabled)));
+    if (persist) { try { localStorage.setItem("abyss404:advanced-controls", enabled ? "1" : "0"); } catch (_) {} }
+    if (!enabled && ["story", "continue", "see"].includes(app.mode)) selectMode("do");
+  }
+
+  function restoreAdvancedControls() {
+    let enabled = false;
+    try { enabled = localStorage.getItem("abyss404:advanced-controls") === "1"; } catch (_) {}
+    applyAdvancedControls(enabled, false);
+  }
+
   function isInstalledApp() {
     return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
   }
@@ -1385,6 +1400,7 @@
     $("#test-connection").addEventListener("click", testApiConnection);
     $("#audio-toggle").addEventListener("click", toggleAudio);
     $("#install-app").addEventListener("click", installApp);
+    $("#advanced-controls-toggle").addEventListener("click", () => applyAdvancedControls(!document.body.classList.contains("advanced-controls")));
     $("#onboarding-start").addEventListener("click", () => {
       try { localStorage.setItem("abyss404:onboarding-seen", "1"); } catch (_) { /* optional */ }
       closeDialog("onboarding-dialog");
@@ -1425,6 +1441,7 @@
       return;
     }
     bindEvents();
+    restoreAdvancedControls();
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       app.installPrompt = event;

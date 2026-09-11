@@ -1,0 +1,5 @@
+"use strict";
+const fs=require("fs"),path=require("path"),root=path.resolve(__dirname,"..");
+const html=fs.readFileSync(path.join(root,"index.html"),"utf8"),css=fs.readFileSync(path.join(root,"styles.css"),"utf8"),app=fs.readFileSync(path.join(root,"js/app.js"),"utf8");
+const checks=[[html.includes('id="advanced-controls-toggle"'),"toggle avanzado"],[html.includes('data-mode="do"')&&html.includes('data-mode="say"'),"Actuar/Hablar"],[(html.match(/focus-advanced/g)||[]).length>=7,"controles avanzados"],[css.includes('body:not(.advanced-controls) .focus-advanced'),"avanzados ocultos"],[css.includes('grid-template-columns:repeat(2'),"dos modos simples"],[app.includes('function applyAdvancedControls'),"control de foco"],[app.includes('function restoreAdvancedControls'),"restauración"],[app.includes('abyss404:advanced-controls'),"persistencia"],[app.includes('["story", "continue", "see"].includes(app.mode)'),"retorno seguro"],[html.includes('data-app-version="4.2.0"'),"versión"]];
+const bad=checks.filter(([ok])=>!ok);if(bad.length){bad.forEach(([,m])=>console.error('✗ '+m));process.exit(1)}console.log(`✓ Focus Edition verificada (${checks.length} comprobaciones)`);

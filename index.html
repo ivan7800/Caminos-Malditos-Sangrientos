@@ -13,12 +13,12 @@
   <meta property="og:image" content="assets/universo-404-512.png">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: blob:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Caminos Malditos Sangrientos · Universo 404</title>
-  <link rel="manifest" href="manifest.webmanifest?v=4.1.5">
+  <link rel="manifest" href="manifest.webmanifest?v=4.2.0">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=4.1.5">
-  <link rel="stylesheet" href="update.css?v=4.1.5">
+  <link rel="stylesheet" href="styles.css?v=4.2.0">
+  <link rel="stylesheet" href="update.css?v=4.2.0">
 </head>
-<body data-app-version="4.1.5">
+<body data-app-version="4.2.0">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <div class="cosmos" aria-hidden="true">
     <div class="cosmos__orb cosmos__orb--one"></div>
@@ -310,8 +310,9 @@
         </div>
         <div class="game-topbar__actions">
           <span class="save-indicator" id="save-indicator"><i></i> Guardado</span>
-          <button class="icon-btn" id="context-inspector-btn" type="button" title="Inspeccionar contexto" aria-label="Inspeccionar contexto">◎</button>
-          <button class="icon-btn" id="export-adventure-btn" type="button" title="Exportar aventura" aria-label="Exportar aventura">⇩</button>
+          <button class="focus-controls-toggle" id="advanced-controls-toggle" type="button" aria-expanded="false" aria-controls="advanced-game-controls"><span class="focus-controls-toggle__more">Más controles</span><span class="focus-controls-toggle__less">Menos controles</span></button>
+          <button class="icon-btn focus-advanced" id="context-inspector-btn" type="button" title="Inspeccionar contexto" aria-label="Inspeccionar contexto">◎</button>
+          <button class="icon-btn focus-advanced" id="export-adventure-btn" type="button" title="Exportar aventura" aria-label="Exportar aventura">⇩</button>
           <button class="icon-btn" id="game-menu-btn" type="button" title="Opciones de partida" aria-label="Opciones de partida">•••</button>
         </div>
       </div>
@@ -341,27 +342,27 @@
           <section class="objective-card">
             <p class="kicker">OBJETIVO ACTUAL</p>
             <p id="world-objective">Descubre por qué el faro emite desde debajo del mar.</p>
-            <div class="director-strip" aria-label="Dirección narrativa">
+            <div class="director-strip focus-advanced" id="advanced-game-controls" aria-label="Dirección narrativa">
               <span><small>ARCO</small><b id="arc-phase">HOOK</b></span>
               <span><small>TENSIÓN</small><b id="director-tension">0</b></span>
               <span><small>NIVEL</small><b id="player-level">1</b></span>
               <span><small>XP</small><b id="player-xp">0/100</b></span>
             </div>
-            <p class="director-note" id="director-note">La señal acaba de despertar.</p>
+            <p class="director-note focus-advanced" id="director-note">La señal acaba de despertar.</p>
             <div class="descent-panel" aria-label="Progreso del descenso">
               <div class="descent-panel__top"><div><p class="kicker">DESCENSO</p><strong id="descent-stage">I · SOSPECHA</strong></div><span id="descent-index">01</span></div>
               <p id="descent-copy">Algo no encaja. El mundo todavía puede fingir que todo sigue en su sitio.</p>
               <div class="descent-meter" role="progressbar" aria-label="Progreso del descenso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="2"><i id="descent-meter-fill"></i></div>
               <div class="descent-panel__foot"><span>Progreso del umbral</span><b id="descent-progress">2%</b></div>
             </div>
-            <div class="trajectory-summary" id="trajectory-summary" aria-label="Trayectoria de la campaña" hidden></div>
+            <div class="trajectory-summary focus-advanced" id="trajectory-summary" aria-label="Trayectoria de la campaña" hidden></div>
           </section>
 
           <button class="sidebar-mobile-close" type="button" data-close-sidebar>Volver a la historia</button>
         </aside>
 
         <div class="story-column">
-          <div class="story-toolbar" aria-label="Herramientas de edición">
+          <div class="story-toolbar focus-advanced" aria-label="Herramientas de edición">
             <div>
               <button class="tool-btn" id="undo-btn" type="button" disabled title="Deshacer último turno">↶ <span>Deshacer</span></button>
               <button class="tool-btn" id="redo-btn" type="button" disabled title="Rehacer turno">↷ <span>Rehacer</span></button>
@@ -381,9 +382,9 @@
             <div class="mode-tabs" role="tablist" aria-label="Modo de acción">
               <button class="mode-tab is-active" type="button" role="tab" aria-selected="true" data-mode="do"><span>Actuar</span><small>Do · acción</small></button>
               <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="say"><span>Hablar</span><small>Say · diálogo</small></button>
-              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="story"><span>Narrar</span><small>Story · autor</small></button>
-              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="continue"><span>Continuar</span><small>Continue · avanzar</small></button>
-              <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="see"><span>Visión</span><small>See · imagen</small></button>
+              <button class="mode-tab focus-advanced" type="button" role="tab" aria-selected="false" data-mode="story"><span>Narrar</span><small>Story · autor</small></button>
+              <button class="mode-tab focus-advanced" type="button" role="tab" aria-selected="false" data-mode="continue"><span>Continuar</span><small>Continue · avanzar</small></button>
+              <button class="mode-tab focus-advanced" type="button" role="tab" aria-selected="false" data-mode="see"><span>Visión</span><small>See · imagen</small></button>
               <button class="mode-tab mode-tab--combat" type="button" role="tab" aria-selected="false" data-mode="attack" hidden><span>⚔</span><small>Atacar</small></button>
               <button class="mode-tab mode-tab--combat" type="button" role="tab" aria-selected="false" data-mode="defend" hidden><span>◈</span><small>Defender</small></button>
             </div>
@@ -639,11 +640,11 @@
     <button class="icon-btn update-banner__close" id="dismiss-update" type="button" aria-label="Ocultar aviso de actualización">×</button>
   </aside>
 
-  <script src="js/update.js?v=4.1.5" defer></script>
-  <script src="js/scenarios.js?v=4.1.5" defer></script>
-  <script src="js/endings.js?v=4.1.5" defer></script>
-  <script src="js/engine.js?v=4.1.5" defer></script>
-  <script src="js/storage.js?v=4.1.5" defer></script>
-  <script src="js/app.js?v=4.1.5" defer></script>
+  <script src="js/update.js?v=4.2.0" defer></script>
+  <script src="js/scenarios.js?v=4.2.0" defer></script>
+  <script src="js/endings.js?v=4.2.0" defer></script>
+  <script src="js/engine.js?v=4.2.0" defer></script>
+  <script src="js/storage.js?v=4.2.0" defer></script>
+  <script src="js/app.js?v=4.2.0" defer></script>
 </body>
 </html>

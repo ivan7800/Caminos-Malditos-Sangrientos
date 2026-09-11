@@ -1,3 +1,12 @@
+## 4.2.0 — Focus Edition
+
+- Interfaz de partida simplificada por defecto.
+- Actuar/Hablar como modos primarios; Narrar/Continuar/Visión pasan a controles avanzados.
+- Arco, tensión, nivel, XP, inspector, exportación y edición avanzada quedan detrás de **Más controles**.
+- Preferencia avanzada persistente en localStorage.
+- Documentación/versionado unificados.
+- Feature freeze.
+
 # Changelog
 
 Los cambios relevantes de ABYSS 404 se documentan en este archivo.

@@ -2,12 +2,20 @@
 
 Anteriormente **ABYSS 404**; se conservan los identificadores internos y el formato `.abyss404` para mantener la compatibilidad con aventuras existentes.
 
-**Versión 4.1.3 — Stable / Definitive · Definitive Stories Edition · Continuity Hardened**
+**Versión 4.2.0 — Focus Edition · Stable / Feature Freeze**
 
 **Motor narrativo local-first de horror cósmico.** Una PWA estática que combina juego de rol libre, escritura colaborativa, memoria narrativa y un mundo estructurado que no depende de que el narrador “recuerde” las reglas.
 
 Creado por **I. Roig** para el Universo 404.
 
+
+### Focus Edition 4.2.0
+
+- La experiencia de juego prioriza historia, estado, objetivo y los modos **Actuar / Hablar**.
+- Arco, tensión, nivel, XP, inspector, exportación rápida, herramientas de edición y modos de autor quedan detrás de **Más controles**.
+- Nada se elimina: la preferencia avanzada se conserva localmente.
+- Se reduce el ruido visual sin tocar campañas, finales, continuidad, guardado o PWA.
+- Esta edición entra en **feature freeze**: a partir de aquí, solo correcciones de bugs o compatibilidad.
 
 ### Estabilización offline 4.1.3
 

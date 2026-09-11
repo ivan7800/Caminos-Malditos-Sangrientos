@@ -1,4 +1,4 @@
-# Auditoría de experiencia y release — v4.1.5
+# Auditoría de experiencia y release — v4.2.0
 
 **Estado:** Stable / Definitive. Incluye hardening del Service Worker para impedir que respuestas 404 sustituyan la copia offline de `index.html`.
 
@@ -85,3 +85,8 @@ Recursos críticos versionados y actualización visible/controlada del Service W
 ## PWA Install & Update Fix 4.1.5
 
 Se elimina el doble registro del Service Worker y se endurece el flujo de actualización/instalación para Chrome PC.
+
+
+## Focus Edition 4.2.0
+
+La partida prioriza narrativa y acciones principales. Los controles de ingeniería narrativa permanecen disponibles bajo demanda. Se declara feature freeze funcional.

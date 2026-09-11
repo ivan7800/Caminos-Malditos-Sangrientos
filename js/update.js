@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  const VERSION = "4.1.5";
+  const VERSION = "4.2.0";
   const DISMISSED_KEY = `abyss404:update-dismissed:${VERSION}`;
   let registration = null;
   let waitingWorker = null;

@@ -1,12 +1,12 @@
 "use strict";
 
-const CACHE_VERSION = "abyss404-v4.1.5";
+const CACHE_VERSION = "abyss404-v4.2.0";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css?v=4.1.5",
-  "./update.css?v=4.1.5",
-  "./manifest.webmanifest?v=4.1.5",
+  "./styles.css?v=4.2.0",
+  "./update.css?v=4.2.0",
+  "./manifest.webmanifest?v=4.2.0",
   "./assets/icon.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
@@ -25,12 +25,12 @@ const APP_SHELL = [
   "./assets/art-webp/espiral-del-umbral.webp",
   "./assets/art-webp/pozo-rojo.webp",
   "./assets/art-webp/vision-carmesi.webp",
-  "./js/update.js?v=4.1.5",
-  "./js/scenarios.js?v=4.1.5",
-  "./js/endings.js?v=4.1.5",
-  "./js/engine.js?v=4.1.5",
-  "./js/storage.js?v=4.1.5",
-  "./js/app.js?v=4.1.5"
+  "./js/update.js?v=4.2.0",
+  "./js/scenarios.js?v=4.2.0",
+  "./js/endings.js?v=4.2.0",
+  "./js/engine.js?v=4.2.0",
+  "./js/storage.js?v=4.2.0",
+  "./js/app.js?v=4.2.0"
 ];
 
 self.addEventListener("install", (event) => {
