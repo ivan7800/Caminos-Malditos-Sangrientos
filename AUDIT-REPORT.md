@@ -19,7 +19,7 @@ La versión 4.2.0 de `main` se publicó en GitHub Pages (commit `e7168575cbf6827
 | Motor, narrativa, proyecto y almacenamiento | PASA | `npm test`; incluye `tests/storage.test.js` | Node 24, Linux; CI Node 22 pendiente |
 | Escritura durante fallo de IndexedDB y recuperación | PASA | `tests/storage.test.js` con IndexedDB simulado y copia local | Node 24 |
 | Cuota agotada en ambos almacenes | PASA | `tests/storage.test.js`; el guardado rechaza la operación | Node 24 |
-| CI del pull request | PENDIENTE | `.github/workflows/quality.yml`; confirmar ejecución tras abrir PR | GitHub Actions |
+| CI del pull request | PASA | workflow `Quality`, ejecución `45567168268`, job `test` correcto | GitHub Actions, Node 22 |
 | Publicación de `main` anterior | PASA | GitHub Pages, ejecución `34604674381` | GitHub |
 | Primera carga, recarga, instalación, actualización y reapertura sin conexión | PENDIENTE | Probar URL publicada con DevTools, pestaña Application y Network offline | Chrome/Edge reales |
 | Safari/iPhone, Android, audio, teclado virtual y 200 % de zoom | PENDIENTE | Recorrer una partida larga, exportar/importar y reabrir offline | Dispositivos reales |
