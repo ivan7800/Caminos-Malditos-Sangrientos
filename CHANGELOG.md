@@ -4,7 +4,7 @@
 - Se evita anunciar guardados si ambos medios fallan; se informa al jugador si la redundancia queda limitada.
 - Borrados con marca local para impedir que reaparezcan copias anteriores, y detección de versiones más recientes antes de guardar.
 - Pruebas automatizadas de almacenamiento y workflow de lectura `Quality` para PR y `main`.
-- Queda pendiente la revisión del PR, su CI y la comprobación en navegadores/dispositivos reales.
+- El CI del PR ha pasado en Node 22; quedan pendientes la revisión del PR y las comprobaciones en navegadores/dispositivos reales.
 
 ## 4.2.0 — Focus Edition
 
