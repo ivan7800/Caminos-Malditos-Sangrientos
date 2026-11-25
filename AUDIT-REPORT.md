@@ -1,8 +1,8 @@
 # Auditoría de experiencia y release — v4.2.0
 
-**Estado:** Stable / Definitive. Incluye hardening del Service Worker para impedir que respuestas 404 sustituyan la copia offline de `index.html`.
+**Estado:** 4.2.0 publicado; corrección de persistencia y CI preparada en una rama para revisión. La validación en hardware real sigue pendiente.
 
-Fecha: 2026-09-06  
+Revisión de mantenimiento: 2026-11-25
 Producto: Caminos Malditos Sangrientos · Universo 404  
 Alcance: UX/UI, flujo principal, narrativa, PWA, rendimiento, accesibilidad, seguridad y empaquetado.
 
@@ -10,7 +10,21 @@ Alcance: UX/UI, flujo principal, narrativa, PWA, rendimiento, accesibilidad, seg
 
 La edición 4.1.1 conserva la capa narrativa definitiva de 4.1.0 y añade un refuerzo específico de continuidad: ledger persistente de personajes muertos y objetos perdidos/destruidos, bloqueo narrativo de herramientas no establecidas y acciones imposibles no justificadas, y reglas equivalentes para el motor remoto. La auditoría comprueba además diálogo de ajustes, formularios, Service Worker, rutas, PWA, persistencia, accesibilidad básica y layout móvil con viewport dinámico.
 
-La app queda como **release candidate publicable**, no como producto verificado en todos los dispositivos. El motor, la estructura estática, los 56 finales y las rutas locales pasan las comprobaciones automatizadas. La instalación PWA, el audio real y el modo offline completo deben confirmarse todavía en Chrome/Edge, Safari iOS y Android reales.
+La versión 4.2.0 de `main` se publicó en GitHub Pages (commit `e7168575cbf682725c679c779f9c6ef993c7ef96`, ejecución `34604674381`). La rama de mantenimiento requiere revisión y ejecución de su propio CI. Las pruebas del motor cubren 14 escenarios y 56 finales diseñados. La instalación PWA, el audio real y el modo offline completo aún requieren comprobaciones de navegador y hardware.
+
+## Verificación de la rama de mantenimiento
+
+| Comprobación | Resultado | Evidencia / comando | Entorno |
+| --- | --- | --- | --- |
+| Motor, narrativa, proyecto y almacenamiento | PASA | `npm test`; incluye `tests/storage.test.js` | Node 24, Linux; CI Node 22 pendiente |
+| Escritura durante fallo de IndexedDB y recuperación | PASA | `tests/storage.test.js` con IndexedDB simulado y copia local | Node 24 |
+| Cuota agotada en ambos almacenes | PASA | `tests/storage.test.js`; el guardado rechaza la operación | Node 24 |
+| CI del pull request | PENDIENTE | `.github/workflows/quality.yml`; confirmar ejecución tras abrir PR | GitHub Actions |
+| Publicación de `main` anterior | PASA | GitHub Pages, ejecución `34604674381` | GitHub |
+| Primera carga, recarga, instalación, actualización y reapertura sin conexión | PENDIENTE | Probar URL publicada con DevTools, pestaña Application y Network offline | Chrome/Edge reales |
+| Safari/iPhone, Android, audio, teclado virtual y 200 % de zoom | PENDIENTE | Recorrer una partida larga, exportar/importar y reabrir offline | Dispositivos reales |
+
+El Chromium disponible en este entorno apunta a un ejecutable inexistente (`/usr/lib/chromium/chromium`); no se afirma haber realizado pruebas visuales automatizadas. Para comprobar la PWA: abrir la URL HTTPS en Chrome o Edge, iniciar y guardar una partida, recargar, instalar, poner Network en Offline y reabrir; volver a Online, desplegar una actualización, aceptar el aviso y comprobar que el guardado, su exportación y los recursos permanecen. Repetir con teclado, zoom 200 %, pantalla estrecha y audio en iOS/Android. El caso de dos pestañas debe repetirse con ediciones simultáneas; `navigator.locks` serializa cuando está disponible, pero una carrera entre navegadores sin esta API sigue siendo un límite de esta versión.
 
 ## Test de usuario realizado
 

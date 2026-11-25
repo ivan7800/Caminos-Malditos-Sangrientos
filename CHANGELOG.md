@@ -1,3 +1,11 @@
+## 4.2.0 — revisión de persistencia y CI (rama de mantenimiento)
+
+- Se combinan las copias de IndexedDB y localStorage, se repone en IndexedDB la copia más reciente con lectura de verificación y se retienen los originales.
+- Se evita anunciar guardados si ambos medios fallan; se informa al jugador si la redundancia queda limitada.
+- Borrados con marca local para impedir que reaparezcan copias anteriores, y detección de versiones más recientes antes de guardar.
+- Pruebas automatizadas de almacenamiento y workflow de lectura `Quality` para PR y `main`.
+- Queda pendiente la revisión del PR, su CI y la comprobación en navegadores/dispositivos reales.
+
 ## 4.2.0 — Focus Edition
 
 - Interfaz de partida simplificada por defecto.
@@ -5,7 +13,7 @@
 - Arco, tensión, nivel, XP, inspector, exportación y edición avanzada quedan detrás de **Más controles**.
 - Preferencia avanzada persistente en localStorage.
 - Documentación/versionado unificados.
-- Feature freeze.
+- Nuevas funciones congeladas; se admiten correcciones de defectos.
 
 # Changelog
 

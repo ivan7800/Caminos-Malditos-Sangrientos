@@ -2,7 +2,7 @@
 
 Anteriormente **ABYSS 404**; se conservan los identificadores internos y el formato `.abyss404` para mantener la compatibilidad con aventuras existentes.
 
-**Versión 4.2.0 — Focus Edition · Stable / Feature Freeze**
+**Versión 4.2.0 — Focus Edition · correcciones de persistencia pendientes de revisión en PR**
 
 **Motor narrativo local-first de horror cósmico.** Una PWA estática que combina juego de rol libre, escritura colaborativa, memoria narrativa y un mundo estructurado que no depende de que el narrador “recuerde” las reglas.
 
@@ -15,7 +15,7 @@ Creado por **I. Roig** para el Universo 404.
 - Arco, tensión, nivel, XP, inspector, exportación rápida, herramientas de edición y modos de autor quedan detrás de **Más controles**.
 - Nada se elimina: la preferencia avanzada se conserva localmente.
 - Se reduce el ruido visual sin tocar campañas, finales, continuidad, guardado o PWA.
-- Esta edición entra en **feature freeze**: a partir de aquí, solo correcciones de bugs o compatibilidad.
+- Esta edición limita nuevos desarrollos a correcciones de bugs o compatibilidad; consulta `AUDIT-REPORT.md` para ver qué pruebas aún están pendientes.
 
 ### Estabilización offline 4.1.3
 
@@ -103,7 +103,7 @@ Creado por **I. Roig** para el Universo 404.
 - Código de ritual para transportar una partida pequeña mediante texto.
 - Exportación completa `.abyss404`, relato en Markdown y visiones procedurales en PNG.
 - Edición de respuestas, deshacer, rehacer y regenerar durante la sesión.
-- Guardado automático en IndexedDB, con fallback a `localStorage`.
+- Guardado automático en IndexedDB con copia local cuando está disponible. Si falla IndexedDB, se usa la copia de `localStorage`; al recuperarse IndexedDB se comparan versiones por fecha y se repone la más reciente sin borrar la copia. Un conflicto con igual fecha y distinto contenido exige intervención manual. Exporta una copia si aparece el aviso de almacenamiento limitado.
 - Sin telemetría, anuncios, CDN ni dependencias de ejecución.
 - Diseño responsive, navegación por teclado, reducción de movimiento y texto ampliable.
 - PWA instalable y caché offline.
@@ -216,7 +216,7 @@ Requiere Node.js 18 o posterior únicamente para las pruebas; la app no lo neces
 npm test
 ```
 
-La batería valida motor, memoria, contexto, serialización, código de ritual, manifest, rutas del Service Worker y ausencia de recursos externos de ejecución.
+La batería valida motor, memoria, contexto, serialización, código de ritual, fallos y recuperación de almacenamiento, manifest, rutas del Service Worker y ausencia de recursos externos de ejecución. El workflow `Quality` ejecuta este comando en PR y en `main`.
 
 ## Privacidad y seguridad
 

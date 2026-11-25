@@ -253,6 +253,7 @@
 
   async function refreshAdventures() {
     app.adventures = await Storage.listAdventures();
+    if (Storage.isDegraded()) toast("Almacenamiento limitado: algunas partidas antiguas pueden reaparecer cuando IndexedDB vuelva a estar disponible.", "error");
     renderRecent();
   }
 
@@ -712,13 +713,15 @@
     indicator.innerHTML = "<i></i> Guardando";
     try {
       await Storage.saveAdventure(app.current);
-      indicator.className = "save-indicator";
-      indicator.innerHTML = "<i></i> Guardado";
+      indicator.className = Storage.isDegraded() ? "save-indicator is-error" : "save-indicator";
+      indicator.innerHTML = Storage.isDegraded() ? "<i></i> Guardado con respaldo limitado" : "<i></i> Guardado";
+      if (Storage.isDegraded()) toast("Almacenamiento limitado: exporta una copia de tu aventura y comprueba tus partidas al volver a abrir.", "error");
       if (app.channel) app.channel.postMessage({ type: "adventure-updated", id: app.current.id, at: Date.now() });
     } catch (error) {
       indicator.className = "save-indicator is-error";
       indicator.innerHTML = "<i></i> Error";
       toast(`No se pudo guardar: ${error.message}`, "error");
+      throw error;
     }
   }
 
@@ -1345,7 +1348,7 @@
     $("#omen-start").addEventListener("click", () => chooseScenario(dailyScenario().id));
     $("#join-ritual-btn").addEventListener("click", () => showDialog("ritual-dialog"));
     $("#ritual-form").addEventListener("submit", openRitualCode);
-    $("#setup-form").addEventListener("submit", (event) => { event.preventDefault(); startAdventure(event.currentTarget); });
+    $("#setup-form").addEventListener("submit", handleAsync((event) => { event.preventDefault(); return startAdventure(event.currentTarget); }));
     $("#multiplayer-toggle").addEventListener("change", (event) => { $("#multiplayer-fields").hidden = !event.currentTarget.checked; });
     $("#scenario-search").addEventListener("input", renderScenarioLibrary);
     $("#scenario-filters").addEventListener("click", (event) => {
@@ -1371,8 +1374,8 @@
         submitTurn();
       }
     });
-    $("#undo-btn").addEventListener("click", undoTurn);
-    $("#redo-btn").addEventListener("click", redoTurn);
+    $("#undo-btn").addEventListener("click", handleAsync(undoTurn));
+    $("#redo-btn").addEventListener("click", handleAsync(redoTurn));
     $("#leave-game").addEventListener("click", () => routeTo("home"));
     $("#focus-mode-btn").addEventListener("click", (event) => {
       const active = document.body.classList.toggle("reader-mode");
@@ -1383,18 +1386,18 @@
     $("#game-menu-btn").addEventListener("click", () => showDialog("game-menu-dialog"));
     $("#export-story-btn").addEventListener("click", exportStory);
     $("#copy-ritual-code-btn").addEventListener("click", copyRitualCode);
-    $("#save-chapter-checkpoint-btn").addEventListener("click", saveChapterCheckpoint);
-    $("#restore-chapter-checkpoint-btn").addEventListener("click", restoreChapterCheckpoint);
+    $("#save-chapter-checkpoint-btn").addEventListener("click", handleAsync(saveChapterCheckpoint));
+    $("#restore-chapter-checkpoint-btn").addEventListener("click", handleAsync(restoreChapterCheckpoint));
     $("#open-report-btn").addEventListener("click", showReport);
     $("#import-adventure-btn").addEventListener("click", () => $("#adventure-file-input").click());
     $("#adventure-file-input").addEventListener("change", async (event) => {
       try { await importAdventureFile(event.target.files[0]); } catch (error) { toast(error.message, "error"); }
       event.target.value = "";
     });
-    $("#delete-adventure-btn").addEventListener("click", deleteCurrentAdventure);
+    $("#delete-adventure-btn").addEventListener("click", handleAsync(deleteCurrentAdventure));
     $("#edit-turn-form").addEventListener("submit", saveEditedTurn);
 
-    $("#settings-form").addEventListener("submit", saveSettingsFromForm);
+    $("#settings-form").addEventListener("submit", handleAsync(saveSettingsFromForm));
     $$("#settings-form input[name='engine']").forEach((radio) => radio.addEventListener("change", () => { $("#remote-settings").hidden = radio.value !== "remote" || !radio.checked; }));
     $("#settings-form input[name='temperature']").addEventListener("input", (event) => { event.currentTarget.nextElementSibling.textContent = event.currentTarget.value; });
     $("#test-connection").addEventListener("click", testApiConnection);
@@ -1432,6 +1435,13 @@
         renderGame(false);
         toast("La aventura se actualizó desde otra pestaña.");
       }
+    });
+  }
+
+  function handleAsync(action) {
+    return (...args) => Promise.resolve().then(() => action(...args)).catch((error) => {
+      // saveCurrent already displayed its storage error; other actions need a message too.
+      if (!/No se pudo guardar|versión más reciente|Copia local dañada|Registro de borrados dañado/.test(error.message || "")) toast(error.message || "No se pudo completar la operación.", "error");
     });
   }
 
