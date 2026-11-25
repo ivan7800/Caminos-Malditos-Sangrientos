@@ -7,8 +7,9 @@
   const FALLBACK_ADVENTURES = "abyss404:adventures";
   const FALLBACK_SCENARIOS = "abyss404:scenarios";
   const SESSION_KEY = "abyss404:session-api-key";
+  const DELETED_KEY = "abyss404:deleted-records";
   let dbPromise = null;
-  let forceFallback = false;
+  let degraded = false;
 
   const defaults = Object.freeze({
     engine: "offline",
@@ -27,7 +28,7 @@
   });
 
   function openDb() {
-    if (forceFallback || !("indexedDB" in window)) return Promise.reject(new Error("IndexedDB no disponible"));
+    if (!("indexedDB" in window)) return Promise.reject(new Error("IndexedDB no disponible"));
     if (dbPromise) return dbPromise;
     dbPromise = new Promise((resolve, reject) => {
       const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -46,7 +47,7 @@
       request.onerror = () => reject(request.error || new Error("No se pudo abrir la base local"));
       request.onblocked = () => reject(new Error("La base local está bloqueada por otra pestaña"));
     }).catch((error) => {
-      forceFallback = true;
+      degraded = true;
       dbPromise = null;
       throw error;
     });
@@ -72,65 +73,107 @@
   }
 
   function readFallback(key) {
-    try {
-      const value = JSON.parse(localStorage.getItem(key) || "[]");
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    if (!Array.isArray(value)) throw new Error(`Copia local dañada: ${key}`);
+    return value;
   }
 
   function writeFallback(key, list) {
     localStorage.setItem(key, JSON.stringify(list));
   }
 
-  async function saveRecord(storeName, fallbackKey, record) {
-    try {
-      await storeAction(storeName, "readwrite", (store) => store.put(record));
-    } catch (_) {
-      const records = readFallback(fallbackKey);
-      const index = records.findIndex((item) => item.id === record.id);
-      if (index >= 0) records[index] = record;
-      else records.push(record);
-      writeFallback(fallbackKey, records);
+  function tombstones() {
+    const value = JSON.parse(localStorage.getItem(DELETED_KEY) || "{}");
+    if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Registro de borrados dañado");
+    return value;
+  }
+
+  function recordTime(record) { return String(record && (record.updatedAt || record.createdAt) || ""); }
+  function mergeRecords(primary, mirror, deleted, storeName) {
+    const result = new Map();
+    for (const record of [...primary, ...mirror]) {
+      if (!record || typeof record.id !== "string") continue;
+      const key = `${storeName}:${record.id}`;
+      if (deleted[key]) continue;
+      const current = result.get(record.id);
+      if (!current || recordTime(record) > recordTime(current)) result.set(record.id, record);
+      else if (recordTime(record) === recordTime(current) && JSON.stringify(record) !== JSON.stringify(current)) {
+        throw new Error(`Conflicto entre copias de ${record.id}. Exporta tus datos antes de continuar.`);
+      }
     }
-    return record;
+    return [...result.values()];
+  }
+
+  async function fromDb(storeName) {
+    const db = await openDb();
+    return new Promise((resolve, reject) => {
+      const request = db.transaction(storeName, "readonly").objectStore(storeName).getAll();
+      request.onsuccess = () => resolve(request.result || []);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function withLock(key, action) {
+    if (window.navigator && navigator.locks) return navigator.locks.request(`abyss404:${key}`, action);
+    return action();
+  }
+
+  async function saveRecord(storeName, fallbackKey, record) {
+    return withLock(fallbackKey, async () => {
+      const previous = await getRecord(storeName, fallbackKey, record.id);
+      if (previous && recordTime(previous) > recordTime(record)) throw new Error("Existe una versión más reciente en otra pestaña. Recarga la partida antes de guardar.");
+      let dbSaved = false;
+      try { await storeAction(storeName, "readwrite", (store) => store.put(record)); dbSaved = true; degraded = false; }
+      catch (_) { degraded = true; }
+      try {
+        const records = readFallback(fallbackKey).filter((item) => item.id !== record.id);
+        records.push(record);
+        writeFallback(fallbackKey, records);
+      } catch (error) {
+        if (!dbSaved) throw new Error(`No se pudo guardar en IndexedDB ni en la copia local: ${error.message}`);
+        degraded = true;
+      }
+      const deleted = tombstones();
+      if (deleted[`${storeName}:${record.id}`]) { delete deleted[`${storeName}:${record.id}`]; localStorage.setItem(DELETED_KEY, JSON.stringify(deleted)); }
+      return record;
+    });
   }
 
   async function listRecords(storeName, fallbackKey) {
-    try {
-      const db = await openDb();
-      return await new Promise((resolve, reject) => {
-        const transaction = db.transaction(storeName, "readonly");
-        const request = transaction.objectStore(storeName).getAll();
-        request.onsuccess = () => resolve(request.result || []);
-        request.onerror = () => reject(request.error);
-      });
-    } catch (_) {
-      return readFallback(fallbackKey);
+    let primary = [];
+    let available = false;
+    try { primary = await fromDb(storeName); available = true; }
+    catch (_) { degraded = true; }
+    const records = mergeRecords(primary, readFallback(fallbackKey), tombstones(), storeName);
+    if (available) {
+      // Copy newer fallback writes back to IndexedDB, retaining the original mirror.
+      const dbRecords = new Map(primary.map((record) => [record.id, record]));
+      for (const record of records) {
+        if (recordTime(record) > recordTime(dbRecords.get(record.id))) {
+          try {
+            await storeAction(storeName, "readwrite", (store) => store.put(record));
+            const verified = await fromDb(storeName);
+            if (JSON.stringify(verified.find((item) => item.id === record.id)) !== JSON.stringify(record)) throw new Error("Recovery verification failed");
+          } catch (_) { degraded = true; }
+        }
+      }
     }
+    return records;
   }
 
   async function getRecord(storeName, fallbackKey, id) {
-    try {
-      const db = await openDb();
-      return await new Promise((resolve, reject) => {
-        const transaction = db.transaction(storeName, "readonly");
-        const request = transaction.objectStore(storeName).get(id);
-        request.onsuccess = () => resolve(request.result || null);
-        request.onerror = () => reject(request.error);
-      });
-    } catch (_) {
-      return readFallback(fallbackKey).find((item) => item.id === id) || null;
-    }
+    return (await listRecords(storeName, fallbackKey)).find((item) => item.id === id) || null;
   }
 
   async function deleteRecord(storeName, fallbackKey, id) {
-    try {
-      await storeAction(storeName, "readwrite", (store) => store.delete(id));
-    } catch (_) {
+    return withLock(fallbackKey, async () => {
+      const deleted = tombstones();
+      deleted[`${storeName}:${id}`] = new Date().toISOString();
+      localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
+      try { await storeAction(storeName, "readwrite", (store) => store.delete(id)); }
+      catch (_) { degraded = true; }
       writeFallback(fallbackKey, readFallback(fallbackKey).filter((item) => item.id !== id));
-    }
+    });
   }
 
   function saveAdventure(adventure) {
@@ -252,6 +295,7 @@
     saveSettings,
     download,
     slugify,
-    readJsonFile
+    readJsonFile,
+    isDegraded: () => degraded
   });
 })();
